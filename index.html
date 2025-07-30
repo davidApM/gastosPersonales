@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Estilos de letras -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!--Icon de la página-->
+    <link rel="icon" href="imagenes/dinero.png" type="image/png"> <!-- Cambiar por un icono de dinero -->
+    <!-- Iconos Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Gestor de Gastos Personales</title>
+</head>
+
+<body>
+    <header>
+        <h1>💰 Gestor de Gastos Personales</h1>
+        <nav class="menu-superior">
+            <ul class="menu-superior-ul">
+                <li><a href="#resumen-financiero"><i class="fas fa-chart-pie"></i> Resumen</a></li>
+                <li><a href="#agregar-gasto"><i class="fas fa-plus-circle"></i> Nuevo Registro</a></li>
+                <li><a href="#sobre-mi"><i class="fas fa-info-circle"></i> Ayuda</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="contenedor-general">
+        <!-- Menú lateral izquierdo -->
+        <aside class="menu-lateral">
+            <h2>Menú Financiero</h2>
+            <ul>
+                <li><a href="#agregar-gasto">Agregar Transacción</a></li>
+                <li><a href="#ver-transacciones">Historial</a></li>
+                <li><a href="#resumen-financiero">Estadísticas</a></li>
+            </ul>
+            <!-- Botón de modo oscuro o claro -->
+            <button id="modo-toggle">🌙 Modo oscuro</button>
+
+            <!-- Resumen rápido -->
+            <div class="resumen-rapido">
+                <h3>Balance Actual</h3>
+                <p id="balance-total">$0.00</p>
+                <div class="detalle-balance">
+                    <span class="ingresos">↑ Ingresos: <span id="ingresos-total">$0.00</span></span>
+                    <span class="gastos">↓ Gastos: <span id="gastos-total">$0.00</span></span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main class="contenido-principal">
+            <!-- Sección de resumen con gráficos -->
+            <article id="resumen-financiero" class="descripcion">
+                <h2><i class="fas fa-chart-bar"></i> Resumen Financiero</h2>
+
+                <!-- Añade este bloque del resumen rápido -->
+                <div class="resumen-rapido">
+                    <div class="balance-card">
+                        <h3><i class="fas fa-wallet"></i> Balance Total</h3>
+                        <p id="balance-total">$0.00</p>
+                    </div>
+                    <div class="detalle-balance">
+                        <div class="ingresos-card">
+                            <h4><i class="fas fa-arrow-up"></i> Ingresos</h4>
+                            <p id="ingresos-total">+$0.00</p>
+                        </div>
+                        <div class="gastos-card">
+                            <h4><i class="fas fa-arrow-down"></i> Gastos</h4>
+                            <p id="gastos-total">-$0.00</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reemplaza la sección de gráficos con este código -->
+                <div class="graficos-container">
+                    <div class="grafico-wrapper">
+                        <canvas id="grafico-categorias"></canvas>
+                    </div>
+                    <div class="grafico-wrapper">
+                        <canvas id="grafico-mensual"></canvas>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Formulario de transacciones -->
+            <div class="contenido-formulario" id="agregar-gasto">
+                <h2><i class="fas fa-plus-circle"></i> Nueva Transacción</h2>
+                <form class="form-contacto" novalidate>
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="descripcion">Descripción:</label>
+                            <input type="text" id="descripcion" placeholder="Ej: Supermercado, Salario..." required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="monto">Monto ($):</label>
+                            <input type="number" id="monto" step="0.01" min="0" placeholder="0.00" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="categoria">Categoría:</label>
+                            <select id="categoria" required>
+                                <option value="">Seleccione...</option>
+                                <option value="Alimentación">Alimentación</option>
+                                <option value="Transporte">Transporte</option>
+                                <option value="Vivienda">Vivienda</option>
+                                <option value="Entretenimiento">Entretenimiento</option>
+                                <option value="Salud">Salud</option>
+                                <option value="Ingresos">Ingresos</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <fieldset class="tipo-transaccion">
+                                <legend>Tipo:</legend>
+                                <div class="radio-options">
+                                    <div class="radio-option">
+                                        <input type="radio" id="ingreso" name="tipo" value="ingreso" required>
+                                        <label for="ingreso" class="ingreso-option"><i class="fas fa-arrow-up"></i>
+                                            Ingreso</label>
+                                    </div>
+                                    <div class="radio-option">
+                                        <input type="radio" id="gasto" name="tipo" value="gasto">
+                                        <label for="gasto" class="gasto-option"><i class="fas fa-arrow-down"></i>
+                                            Gasto</label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fecha">Fecha:</label>
+                            <input type="date" id="fecha" required>
+                        </div>
+
+                        <button id="enviar-formulario" type="submit">Registrar</button>
+                    </fieldset>
+                </form>
+            </div>
+
+            <!-- Filtros -->
+            <div class="descripcion">
+                <h2><i class="fas fa-filter"></i> Filtros Avanzados</h2>
+                <div class="filtros-container">
+                    <div class="filtro-grupo">
+                        <label for="filtro-tipo">Tipo:</label>
+                        <select id="filtro-tipo" class="filtro-select">
+                            <option value="todos">Todos</option>
+                            <option value="ingreso">Ingresos</option>
+                            <option value="gasto">Gastos</option>
+                        </select>
+                    </div>
+
+                    <div class="filtro-grupo">
+                        <label for="filtro-categoria">Categoría:</label>
+                        <select id="filtro-categoria" class="filtro-select">
+                            <option value="todas">Todas</option>
+                            <!-- Opciones se llenarán con JS -->
+                        </select>
+                    </div>
+
+                    <div class="filtro-grupo">
+                        <label for="filtro-mes">Mes:</label>
+                        <select id="filtro-mes" class="filtro-select">
+                            <option value="todos">Todos</option>
+                            <option value="1">Enero</option>
+                            <option value="2">Febrero</option>
+                            <!-- ... otros meses ... -->
+                        </select>
+                    </div>
+
+                    <button id="limpiar-filtros" class="filtro-boton">Limpiar filtros</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Tabla de transacciones -->
+    <article id="ver-transacciones" class="descripcion">
+        <h2><i class="fas fa-history"></i> Historial de Transacciones</h2>
+        <div class="tabla-container">
+            <table class="tabla-transacciones">
+                <thead>
+                    <tr>
+                        <th>📅 Fecha</th>
+                        <th>📝 Descripción</th>
+                        <th>💰 Monto</th>
+                        <th>🏷️ Categoría</th>
+                        <th>🔄 Tipo</th>
+                        <th>🗑️ Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Ejemplo de fila (se llenará con JS) -->
+                    <tr class="ingreso">
+                        <td>15/05/2023</td>
+                        <td>Salario</td>
+                        <td>+2000.00</td>
+                        <td>Ingresos</td>
+                        <td><span class="badge ingreso">Ingreso</span></td>
+                        <td><button class="eliminar"><i class="fas fa-trash"></i></button></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">Total:</td>
+                        <td id="total-transacciones">$0.00</td>
+                        <td colspan="3"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </article>
+
+    <!-- Sección de ayuda -->
+    <article id="sobre-mi" class="descripcion">
+        <h2><i class="fas fa-question-circle"></i> Ayuda</h2>
+        <p>
+            Registra todos tus ingresos y gastos para mantener un control financiero saludable.
+            Usa las categorías para organizar tus transacciones y revisa los gráficos para identificar patrones.
+        </p>
+        <div class="tips">
+            <h3>📌 Consejos:</h3>
+            <ul>
+                <li>Registra <strong>todas</strong> tus transacciones, incluso las pequeñas.</li>
+                <li>Revisa semanalmente tus gastos en "Estadísticas".</li>
+                <li>Establece un presupuesto mensual por categoría.</li>
+            </ul>
+        </div>
+    </article>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Gestor de Gastos Personales</p>
+            <div class="footer-redes">
+                <a href="#" id="exportar-excel"><i class="fas fa-file-excel"></i> Exportar a Excel</a>
+                <a href="#" id="exportar-pdf"><i class="fas fa-file-pdf"></i> Exportar PDF</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

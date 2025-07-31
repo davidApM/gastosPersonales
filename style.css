@@ -89,13 +89,12 @@ header {
     --color-grafico-4: var(--color-neutral);
 }
 
+/*Resumen rápido*/
 /* ------------------------- */
-/* COMPONENTES FINANCIEROS NUEVOS */
+/* ESTILOS PARA RESUMEN RÁPIDO - VERSIÓN OPTIMIZADA */
 /* ------------------------- */
 
-/* Resumen financiero */
-/* Resumen financiero - Base */
-/* Estilos base para móvil */
+/* Estilos base para todos los dispositivos */
 .resumen-rapido {
     background-color: var(--color-fondo-card);
     padding: 15px;
@@ -109,20 +108,26 @@ header {
     gap: 15px;
 }
 
-/* Balance principal */
+/* Estilos para el título */
 .resumen-rapido h3 {
-    margin: 0;
+    color: var(--color-secundario);
+    margin: 0 0 10px 0;
     font-size: 1.2rem;
-    color: var(--color-texto);
     font-weight: 600;
 }
 
+/* Estilos para el balance total */
 .resumen-rapido #balance-total {
     font-size: 1.8rem;
     font-weight: 700;
     color: var(--color-texto);
     margin: 5px 0 10px 0;
 }
+
+/*Fin de resumen rapido*/
+
+
+
 
 /* Detalle de balance */
 .detalle-balance {
@@ -132,7 +137,7 @@ header {
 }
 
 .ingresos, .gastos {
-    padding: 12px;
+   /* padding: 12px; */
     border-radius: 6px;
     font-weight: 500;
 }
@@ -180,67 +185,18 @@ header {
     border-left: 3px solid var(--color-gasto);
 }
 
-/* Estilos para escritorio */
-@media (min-width: 768px) {
-    .resumen-rapido {
-        padding: 20px;
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto;
-        gap: 15px;
-    }
-
-    .balance-card {
-        grid-column: 1;
-        margin-bottom: 0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px;
-    }
-
-    .detalle-balance {
-        grid-column: 1;
-        flex-direction: row;
-        gap: 15px;
-    }
-
-    .ingresos-card, .gastos-card {
-        flex: 1;
-        padding: 15px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-
-    /* Ajustes para pantallas muy grandes */
-    @media (min-width: 1200px) {
-        .resumen-rapido {
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-    }
-}
-
-/* Estilos para los textos */
-.resumen-rapido h3 {
-    font-size: 1.2rem;
-    margin-bottom: 5px;
-    color: var(--color-texto);
-}
-
-.resumen-rapido h4 {
-    font-size: 1rem;
-    margin-bottom: 5px;
-    color: var(--color-texto);
-}
-
-.resumen-rapido p {
-    font-size: 1.3rem;
+/* Estilos para los montos */
+#ingresos-total, #gastos-total {
     font-weight: 600;
-    margin: 0;
 }
+
+
+/* ------------------------- */
+/* ESTILOS PARA RESUMEN RÁPIDO */
+/* ------------------------- */
+
+
+/*Fin de resumenes rápido*/
 
 #balance-total {
     font-size: 1.5rem;
@@ -257,12 +213,6 @@ header {
 
 #balance-total {
     color: var(--color-texto);
-}
-
-.resumen-rapido h3 {
-    color: var(--color-secundario);
-    margin-bottom: 10px;
-    font-size: 1.1rem;
 }
 
 #balance-total {
@@ -394,6 +344,41 @@ body.modo-oscuro .tabla-transacciones tr.gasto {
 }
 
 /* ------------------------- */
+/* AJUSTES PARA MODO OSCURO */
+/* ------------------------- */
+body.modo-oscuro .resumen-rapido {
+    background-color: var(--dm-color-fondo-card);
+    border-color: var(--dm-color-borde);
+}
+
+body.modo-oscuro .resumen-rapido h3 {
+    color: var(--dm-color-texto-claro);
+}
+
+body.modo-oscuro #balance-total {
+    color: var(--dm-color-balance);
+}
+
+body.modo-oscuro .ingresos {
+    background-color: rgba(28, 163, 158, 0.15);
+    border-left-color: var(--dm-color-ingreso);
+    color: var(--dm-color-ingreso);
+}
+
+body.modo-oscuro .gastos {
+    background-color: rgba(211, 47, 47, 0.15);
+    border-left-color: var(--dm-color-gasto);
+    color: var(--dm-color-gasto);
+}
+
+
+
+
+
+
+
+
+/* ------------------------- */
 /* BOTONES DE EXPORTACIÓN */
 /* ------------------------- */
 #exportar-excel {
@@ -416,10 +401,7 @@ body.modo-oscuro .tabla-transacciones tr.gasto {
 /* AJUSTES RESPONSIVOS */
 /* ------------------------- */
 @media (max-width: 768px) {
-    .resumen-rapido {
-        margin: 15px 0;
-    }
-    
+
     .detalle-balance {
         flex-direction: column;
         gap: 5px;
@@ -1125,14 +1107,6 @@ fieldset {
     color: white;
 }
 
-/* Estilos para el resumen financiero */
-/*.resumen-rapido {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 30px;
-}*/
-
 .balance-card, .ingresos-card, .gastos-card {
     background: var(--color-fondo-card);
     padding: 15px;
@@ -1146,11 +1120,6 @@ fieldset {
     text-align: center;
 }
 
-#balance-total {
-    font-size: 2.2rem;
-    font-weight: 700;
-    margin: 10px 0;
-}
 
 .detalle-balance {
     grid-column: span 2;
@@ -1195,6 +1164,31 @@ fieldset {
     margin-top: 20px;
 }
 
+/*Clase tips*/
+.tips {
+    background-color: #f0f8ff; /* color suave de fondo */
+    border-left: 5px solid #00aaff; /* línea decorativa a la izquierda */
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tips h3 {
+    margin-top: 0;
+    color: #0077cc;
+    font-weight: bold;
+}
+
+.tips ul {
+    padding-left: 20px;
+}
+
+.tips li {
+    margin-bottom: 8px;
+}
+
+
 
 /* Modo oscuro */
 body.modo-oscuro .tabla-transacciones th {
@@ -1215,6 +1209,22 @@ body.modo-oscuro .tabla-transacciones tr.gasto td {
 
 body.modo-oscuro .tabla-transacciones tr:hover td {
     background-color: rgba(2, 111, 110, 0.1);
+}
+
+/*Modo oscuro en tips*/
+/* Modo oscuro */
+body.modo-oscuro .tips {
+    background-color: #1e2a38; /* fondo oscuro */
+    border-left: 5px solid #00bcd4; /* color decorativo más brillante */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+body.modo-oscuro .tips h3 {
+    color: #4dd0e1; /* color claro para encabezado */
+}
+
+body.modo-oscuro .tips li {
+    color: #e0f7fa; /* color claro para los textos */
 }
 
 
@@ -1337,9 +1347,12 @@ body.modo-oscuro select:focus {
     outline: none;
 }
 
-/* Responsive */
+/* ------------------------- */
+/* MEDIA QUERIES RESPONSIVE - VERSIÓN FINAL */
+/* ------------------------- */
+
 @media (max-width: 768px) {
-    /*Header*/
+    /* ========= HEADER ========= */
     header {
         flex-direction: column;
         padding: 15px;
@@ -1354,6 +1367,7 @@ body.modo-oscuro select:focus {
     .menu-superior ul {
         width: 100%;
         gap: 10px;
+        flex-direction: column;
     }
     
     .menu-superior a {
@@ -1361,9 +1375,7 @@ body.modo-oscuro select:focus {
         font-size: 0.9rem;
     }
 
-
-    /*Contenedores*/
-
+    /* ========= LAYOUT PRINCIPAL ========= */
     .contenedor-general {
         flex-direction: column;
     }
@@ -1371,26 +1383,9 @@ body.modo-oscuro select:focus {
     .menu-lateral {
         width: 100%;
     }
-    
-    .menu-superior ul {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .filtros-container {
-        flex-direction: column;
-    }
-    
-    .acciones {
-        flex-direction: column;
-    }
-    
-    .editar, .eliminar {
-        width: 100%;
-    }
 
-    /*Para el formulario */
-        .contenido-principal-formulario {
+    /* ========= FORMULARIOS ========= */
+    .contenido-principal-formulario {
         padding: 15px;
     }
     
@@ -1407,8 +1402,31 @@ body.modo-oscuro select:focus {
         padding: 12px;
     }
 
-    /*Para el Footer*/
-        .footer {
+    /* ========= TABLAS ========= */
+    .tabla-container {
+        overflow-x: auto;
+    }
+    
+    .tabla-transacciones {
+        min-width: 600px;
+    }
+    
+    .tabla-transacciones th, 
+    .tabla-transacciones td {
+        padding: 10px 8px;
+    }
+    
+    .acciones, .filtros-container {
+        flex-direction: column;
+    }
+    
+    .editar, .eliminar {
+        width: 100%;
+        gap: 5px;
+    }
+
+    /* ========= FOOTER ========= */
+    .footer {
         padding: 25px 0;
         margin-top: 30px;
     }
@@ -1424,33 +1442,47 @@ body.modo-oscuro select:focus {
     }
 }
 
+@media (min-width: 768px) {
+    /* ========= GRÁFICOS ========= */
+    .graficos-container {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    /* ========= RESUMEN RÁPIDO ========= */
+    .resumen-rapido {
+        padding: 20px;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        gap: 15px;
+    }
+    
+    .balance-card {
+        grid-column: 1;
+        margin-bottom: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+    }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .tabla-container {
-        overflow-x: auto;
+    .detalle-balance {
+        grid-column: 1;
+        flex-direction: row;
+        gap: 15px;
     }
-    
-    .tabla-transacciones {
-        min-width: 600px;
-    }
-    
-    .tabla-transacciones th, 
-    .tabla-transacciones td {
-        padding: 10px 8px;
-    }
-    
-    .acciones {
+
+    .ingresos-card, .gastos-card {
+        flex: 1;
+        padding: 15px;
+        display: flex;
         flex-direction: column;
-        gap: 5px;
-    }
-    
-    .editar, .eliminar {
-        width: 100%;
+        justify-content: space-between;
     }
 }
 
 @media (min-width: 992px) {
+    /* ========= LAYOUT AVANZADO ========= */
     .graficos-container {
         grid-template-columns: 1fr 1fr;
     }
@@ -1469,12 +1501,7 @@ body.modo-oscuro select:focus {
     }
 }
 
-@media (min-width: 768px) {
-    .graficos-container {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
+/* ========= ESTILOS GENERALES PARA GRÁFICOS ========= */
 .grafico-wrapper {
     position: relative;
     width: 100%;

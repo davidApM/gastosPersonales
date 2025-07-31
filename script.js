@@ -31,9 +31,25 @@ document.addEventListener('DOMContentLoaded', function () {
     const filtroCategoria = document.getElementById('filtro-categoria');
     const filtroMes = document.getElementById('filtro-mes');
     const btnEnviar = document.getElementById('enviar-formulario');
-    const balanceTotal = document.getElementById('balance-total');
-    const ingresosTotal = document.getElementById('ingresos-total');
-    const gastosTotal = document.getElementById('gastos-total');
+    const balanceTotal = document.getElementById('balance-total');//No éxiste
+    const ingresosTotal = document.getElementById('ingresos-total');//No éxiste
+    const gastosTotal = document.getElementById('gastos-total'); //No éxiste
+
+    //Nuevas variables
+    // Configuración de elementos DOM
+    const financialElements = {
+        sidebar: {
+            balance: document.getElementById('balance-sidebar'), //Balance total
+            income: document.getElementById('ingresos-sidebar'),//ingreso tatal
+            expenses: document.getElementById('gastos-sidebar') //gastos total
+        },
+        main: {
+            balance: document.getElementById('balance-main'),
+            income: document.getElementById('ingresos-main'),
+            expenses: document.getElementById('gastos-main')
+        }
+    };
+
 
     // =============================================
     // INICIALIZACIÓN
@@ -217,50 +233,62 @@ document.addEventListener('DOMContentLoaded', function () {
     /**
      * Actualiza los valores del balance (ingresos, gastos y total)
      */
-    function actualizarBalance() {
-        console.log('Ejecutando actualizarBalance...');
+function actualizarBalance() {
+    console.log('Ejecutando actualizarBalance...');
 
-        try {
-            // 1. Calcular totales
-            const ingresos = calcularTotalPorTipo('ingreso');
-            const gastos = calcularTotalPorTipo('gasto');
-            const balance = ingresos - gastos;
+    try {
+        // 1. Calcular totales
+        const ingresos = calcularTotalPorTipo('ingreso');
+        const gastos = calcularTotalPorTipo('gasto');
+        const balance = ingresos - gastos;
 
-            console.log('Totales calculados:', { ingresos, gastos, balance });
+        console.log('Totales calculados:', { ingresos, gastos, balance });
 
-            // 2. Verificar funciones auxiliares
-            console.log('Formateo de moneda (1000):', formatearMoneda(1000));
-
-            // 3. Actualizar el DOM con verificación adicional
-            if (ingresosTotal && ingresosTotal instanceof HTMLElement) {
-                ingresosTotal.textContent = `+$${formatearMoneda(ingresos)}`;
-                ingresosTotal.style.color = 'var(--color-ingreso)';
-                console.log('Ingresos actualizados');
-            } else {
-                console.error('Elemento ingresosTotal no encontrado o inválido');
+        // 2. Función de formateo mejorada
+        const formatearValor = (valor, tipo) => {
+            const formato = formatearMoneda(Math.abs(valor));
+            switch(tipo) {
+                case 'ingreso': return `+$${formato}`;
+                case 'gasto': return `-$${formato}`;
+                default: return `$${formato}`;
             }
+        };
 
-            if (gastosTotal && gastosTotal instanceof HTMLElement) {
-                gastosTotal.textContent = `-$${formatearMoneda(gastos)}`;
-                gastosTotal.style.color = 'var(--color-gasto)';
-                console.log('Gastos actualizados');
-            } else {
-                console.error('Elemento gastosTotal no encontrado o inválido');
+        // 3. Actualización sincronizada de ambos componentes
+        const actualizarComponente = (elemento, valor, tipo) => {
+            if (!elemento) {
+                console.error(`Elemento ${tipo} no encontrado`);
+                return;
             }
+            
+            elemento.textContent = formatearValor(valor, tipo);
+            elemento.style.color = tipo === 'gasto' 
+                ? 'var(--color-gasto)' 
+                : 'var(--color-ingreso)';
+        };
 
-            if (balanceTotal && balanceTotal instanceof HTMLElement) {
-                balanceTotal.textContent = `$${formatearMoneda(balance)}`;
-                balanceTotal.style.color = balance >= 0 ? 'var(--color-ingreso)' : 'var(--color-gasto)';
-                console.log('Balance actualizado');
-            } else {
-                console.error('Elemento balanceTotal no encontrado o inválido');
-            }
+        // Sidebar (formato simple)
+        actualizarComponente(financialElements.sidebar.balance, balance, 'balance');
+        actualizarComponente(financialElements.sidebar.income, ingresos, 'ingreso');
+        actualizarComponente(financialElements.sidebar.expenses, gastos, 'gasto');
 
-            actualizarGraficos();
-        } catch (error) {
-            console.error('Error en actualizarBalance:', error);
+        // Main (con estilos diferentes)
+        actualizarComponente(financialElements.main.balance, balance, 'balance');
+        actualizarComponente(financialElements.main.income, ingresos, 'ingreso');
+        actualizarComponente(financialElements.main.expenses, gastos, 'gasto');
+        
+        // Color especial para balance negativo (solo en main)
+        if (balance < 0) {
+            financialElements.main.balance.style.color = 'var(--color-gasto)';
+            financialElements.sidebar.balance.style.color = 'var(--color-gasto)';
         }
+
+        console.log('Actualización completada en ambos componentes');
+        actualizarGraficos();
+    } catch (error) {
+        console.error('Error en actualizarBalance:', error);
     }
+}
     // =============================================
     // GRÁFICOS
     // =============================================

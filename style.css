@@ -118,7 +118,7 @@ header {
     font-weight: 600;
 }
 
-#balance-total {
+#balance-main{
     font-size: 1.8rem;
     font-weight: 700;
     color: var(--color-texto);
@@ -137,7 +137,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 19px 6px;
+    padding: 19px 6px; /*Me quedó todo bien al modificarlo*/
     border-radius: 6px;
     font-weight: 500;
     min-width: 0; /* Añade esto */
@@ -152,7 +152,7 @@ header {
     overflow: hidden;
 }
 
-#gastos-total {
+#gastos-sidebar {
     flex-shrink: 1; /* Permite que se encoja si es necesario */
     min-width: 0; /* Permite el truncamiento */
     overflow: hidden;
@@ -169,24 +169,24 @@ header {
 
 /*Fin de resumenes rápido*/
 
-#balance-total {
+#balance-main{
     font-size: 1.5rem;
 }
 
 /* Colores específicos para los montos */
-#ingresos-total {
+#ingresos-sidebar {
     color: var(--color-ingreso);
 }
 
-#gastos-total {
+#gastos-sidebar{
     color: var(--color-gasto);
 }
 
-#balance-total {
+#balance-main {
     color: var(--color-texto);
 }
 
-#balance-total {
+#balance-main {
     font-size: 1.8rem;
     font-weight: 700;
     margin: 10px 0;
@@ -317,7 +317,7 @@ body.modo-oscuro .resumen-rapido h3 {
     color: var(--dm-color-texto-claro);
 }
 
-body.modo-oscuro #balance-total {
+body.modo-oscuro #balance-main {
     color: var(--dm-color-balance);
 }
 
@@ -1099,17 +1099,17 @@ fieldset {
     gap: 8px;
 }
 
-/*#ingresos-total {
+#ingresos-main {
     color: var(--color-ingreso);
     font-size: 1.5rem;
     font-weight: 600;
-}*/
+}
 
-/*#gastos-total {
+*#gastos-main {
     color: var(--color-gasto);
     font-size: 1.5rem;
     font-weight: 600;
-} */
+}
 
 /* Estilos para los gráficos */
 .graficos-container {

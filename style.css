@@ -1105,7 +1105,7 @@ fieldset {
     font-weight: 600;
 }
 
-*#gastos-main {
+#gastos-main {
     color: var(--color-gasto);
     font-size: 1.5rem;
     font-weight: 600;

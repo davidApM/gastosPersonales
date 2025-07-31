@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // 3. Actualizar el DOM con verificación adicional
             if (ingresosTotal && ingresosTotal instanceof HTMLElement) {
-                ingresosTotal.textContent = `+${formatearMoneda(ingresos)}`;
+                ingresosTotal.textContent = `+$${formatearMoneda(ingresos)}`;
                 ingresosTotal.style.color = 'var(--color-ingreso)';
                 console.log('Ingresos actualizados');
             } else {
@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             if (gastosTotal && gastosTotal instanceof HTMLElement) {
-                gastosTotal.textContent = `-${formatearMoneda(gastos)}`;
+                gastosTotal.textContent = `-$${formatearMoneda(gastos)}`;
                 gastosTotal.style.color = 'var(--color-gasto)';
                 console.log('Gastos actualizados');
             } else {
@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             if (balanceTotal && balanceTotal instanceof HTMLElement) {
-                balanceTotal.textContent = formatearMoneda(balance);
+                balanceTotal.textContent = `$${formatearMoneda(balance)}`;
                 balanceTotal.style.color = balance >= 0 ? 'var(--color-ingreso)' : 'var(--color-gasto)';
                 console.log('Balance actualizado');
             } else {
@@ -406,18 +406,19 @@ document.addEventListener('DOMContentLoaded', function () {
      * @param {Boolean} incluirSigno - Si incluye signo +/-
      * @returns {String} Cantidad formateada
      */
-    function formatearMoneda(monto, incluirSigno = false) {
-        const formatter = new Intl.NumberFormat('es-ES', {
-            style: 'currency',
-            currency: 'EUR',
-            minimumFractionDigits: 2
+
+    /*Para darle formato a la moneda*/
+    function formatearMoneda(monto) {
+        const valor = parseFloat(monto) || 0;
+
+        // Formatear como número en inglés (usa punto decimal)
+        const formatted = valor.toLocaleString('en-US', {
+            minimumFractionDigits: 1,
+            maximumFractionDigits: 1
         });
 
-        let resultado = formatter.format(Math.abs(monto));
-        if (incluirSigno) {
-            resultado = (monto >= 0 ? '+' : '-') + resultado;
-        }
-        return resultado;
+        // Agregar símbolo de dólar manualmente
+        return `${formatted}`;
     }
 
     /**
@@ -655,13 +656,16 @@ document.addEventListener('DOMContentLoaded', function () {
     /* Función de formateo mejorada*/
 
     function formatearMoneda(monto) {
-        // Versión más robusta
         const valor = parseFloat(monto) || 0;
-        return valor.toLocaleString('es-ES', {
-            style: 'currency',
-            currency: 'USD',
-            minimumFractionDigits: 2
+
+        // Formatear como número en inglés (usa punto decimal)
+        const formatted = valor.toLocaleString('en-US', {
+            minimumFractionDigits: 1,
+            maximumFractionDigits: 1
         });
+
+        // Agregar símbolo de dólar manualmente
+        return `${formatted}`;
     }
 
     /**

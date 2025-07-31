@@ -95,6 +95,7 @@ header {
 /* ------------------------- */
 
 /* Estilos base para todos los dispositivos */
+/* Estilos base mejorados */
 .resumen-rapido {
     background-color: var(--color-fondo-card);
     padding: 15px;
@@ -106,9 +107,10 @@ header {
     display: grid;
     grid-template-columns: 1fr;
     gap: 15px;
+    min-width: 0;
+    overflow: visible; /* Contiene a los hijos desbordados */
 }
 
-/* Estilos para el título */
 .resumen-rapido h3 {
     color: var(--color-secundario);
     margin: 0 0 10px 0;
@@ -116,80 +118,49 @@ header {
     font-weight: 600;
 }
 
-/* Estilos para el balance total */
-.resumen-rapido #balance-total {
+#balance-total {
     font-size: 1.8rem;
     font-weight: 700;
     color: var(--color-texto);
     margin: 5px 0 10px 0;
 }
 
-/*Fin de resumen rapido*/
-
-
-
-
-/* Detalle de balance */
 .detalle-balance {
     display: grid;
     grid-template-columns: 1fr;
     gap: 10px;
+    width: 100%;
+    min-width: 0; /* Añade esto */
 }
 
 .ingresos, .gastos {
-   /* padding: 12px; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 19px 6px;
     border-radius: 6px;
     font-weight: 500;
+    min-width: 0; /* Añade esto */
+    width: 100%; /* Asegura que ocupe el 100% */
 }
 
-.ingresos {
-    background-color: rgba(28, 163, 158, 0.1);
-    border-left: 3px solid var(--color-ingreso);
-    color: var(--color-ingreso);
-}
-
+/* ESTILO ESPECÍFICO PARA GASTOS */
 .gastos {
     background-color: rgba(211, 47, 47, 0.1);
     border-left: 3px solid var(--color-gasto);
     color: var(--color-gasto);
+    overflow: hidden;
 }
 
-/* Contenedor de balance */
-.balance-card {
-    margin-bottom: 15px;
-    padding: 12px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 6px;
-    border-left: 3px solid var(--color-ingreso);
+#gastos-total {
+    flex-shrink: 1; /* Permite que se encoja si es necesario */
+    min-width: 0; /* Permite el truncamiento */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-left: 8px;
+    text-align: right; /* Alinea el monto a la derecha */
 }
-
-/* Contenedor de detalle */
-.detalle-balance {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-/* Tarjetas de ingresos y gastos */
-.ingresos-card, .gastos-card {
-    padding: 12px;
-    border-radius: 6px;
-    background-color: rgba(255, 255, 255, 0.05);
-}
-
-.ingresos-card {
-    border-left: 3px solid var(--color-ingreso);
-}
-
-.gastos-card {
-    border-left: 3px solid var(--color-gasto);
-}
-
-/* Estilos para los montos */
-#ingresos-total, #gastos-total {
-    font-weight: 600;
-}
-
 
 /* ------------------------- */
 /* ESTILOS PARA RESUMEN RÁPIDO */
@@ -222,21 +193,12 @@ header {
     color: var(--color-balance);
 }
 
-.detalle-balance {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-}
 
 .ingresos {
     color: var(--color-ingreso);
     font-weight: 500;
 }
 
-.gastos {
-    color: var(--color-gasto);
-    font-weight: 500;
-}
 
 /* Gráficos */
 .graficos-container {
@@ -473,12 +435,6 @@ body.modo-oscuro .gastos {
 /* ------------------------- */
 
 /* Estilos base */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--color-fondo);
@@ -1121,12 +1077,12 @@ fieldset {
 }
 
 
-.detalle-balance {
+/*.detalle-balance {
     grid-column: span 2;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 15px;
-}
+} */
 
 .ingresos-card {
     border-left: 4px solid var(--color-ingreso);
@@ -1143,17 +1099,17 @@ fieldset {
     gap: 8px;
 }
 
-#ingresos-total {
+/*#ingresos-total {
     color: var(--color-ingreso);
     font-size: 1.5rem;
     font-weight: 600;
-}
+}*/
 
-#gastos-total {
+/*#gastos-total {
     color: var(--color-gasto);
     font-size: 1.5rem;
     font-weight: 600;
-}
+} */
 
 /* Estilos para los gráficos */
 .graficos-container {
@@ -1466,11 +1422,11 @@ body.modo-oscuro select:focus {
         padding: 15px;
     }
 
-    .detalle-balance {
+    /*.detalle-balance {
         grid-column: 1;
         flex-direction: row;
         gap: 15px;
-    }
+    } */
 
     .ingresos-card, .gastos-card {
         flex: 1;
@@ -1481,25 +1437,7 @@ body.modo-oscuro select:focus {
     }
 }
 
-@media (min-width: 992px) {
-    /* ========= LAYOUT AVANZADO ========= */
-    .graficos-container {
-        grid-template-columns: 1fr 1fr;
-    }
-    
-    .resumen-rapido {
-        grid-template-columns: 2fr 1fr 1fr;
-    }
-    
-    .balance-card {
-        grid-column: span 1;
-    }
-    
-    .detalle-balance {
-        grid-column: span 1;
-        grid-template-columns: 1fr;
-    }
-}
+
 
 /* ========= ESTILOS GENERALES PARA GRÁFICOS ========= */
 .grafico-wrapper {

@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const modoGuardado = localStorage.getItem('modo');
     const modoOscuro = modoGuardado === 'oscuro';
     const filtrosGuardados = JSON.parse(localStorage.getItem('filtros')) || {};
+    const { jsPDF } = window.jspdf;
 
     // =============================================
     // ELEMENTOS DEL DOM
@@ -73,6 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
     filtroCategoria.addEventListener('change', filtrarTransacciones);
     if (filtroMes) filtroMes.addEventListener('change', filtrarTransacciones);
     document.getElementById('exportar-excel').addEventListener('click', exportarAExcel);
+    document.getElementById('exportar-pdf').addEventListener('click', exportarAPdf);
 
     // =============================================
     // FUNCIONES PRINCIPALES
@@ -742,27 +744,85 @@ function actualizarBalance() {
      */
     function exportarAExcel() {
         try {
-            let csvContent = "Fecha,Descripción,Monto,Categoría,Tipo\n";
+            // Prepara los datos como una matriz de objetos
+            const datos = transacciones.map(t => ({
+                Fecha: t.fecha,
+                Descripción: t.descripcion,
+                Monto: t.monto,
+                Categoría: t.categoria,
+                Tipo: t.tipo
+            }));
 
-            transacciones.forEach(t => {
-                csvContent += `"${t.fecha}","${t.descripcion}",${t.monto},"${t.categoria}","${t.tipo}"\n`;
-            });
+            // Crea una hoja de cálculo
+            const hoja = XLSX.utils.json_to_sheet(datos);
 
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', 'transacciones.csv');
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            // Crea un libro y le agrega la hoja
+            const libro = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(libro, hoja, "Transacciones");
 
-            mostrarNotificacion("Datos exportados correctamente", "exito");
+            // Genera el archivo Excel (.xlsx)
+            XLSX.writeFile(libro, "transacciones.xlsx");
+
+            mostrarNotificacion("Archivo Excel generado exitosamente", "exito");
         } catch (error) {
-            mostrarNotificacion("Error al exportar datos", "error");
-            console.error("Error al exportar:", error);
+            mostrarNotificacion("Error al exportar a Excel", "error");
+            console.error("Error al exportar XLSX:", error);
         }
     }
+
+
+    /*Fin de la función de exportar Excel*/
+    
+/* Exporta las transacciones a PDF un resumen total*/
+    function exportarAPdf() {
+        try {
+            const doc = new jsPDF();
+
+            doc.setFontSize(16);
+            doc.text("Reporte de Transacciones - DAPM", 14, 20);
+
+            const datosTabla = transacciones.map(t => [
+                t.fecha,
+                t.descripcion,
+                `$${parseFloat(t.monto).toFixed(2)}`,
+                t.categoria,
+                t.tipo.charAt(0).toUpperCase() + t.tipo.slice(1)
+            ]);
+
+            doc.autoTable({
+                startY: 30,
+                head: [["Fecha", "Descripción", "Monto", "Categoría", "Tipo"]],
+                body: datosTabla,
+                styles: { fontSize: 10 },
+                theme: 'grid'
+            });
+
+            let ingresos = 0;
+            let gastos = 0;
+            transacciones.forEach(t => {
+                if (t.tipo === "ingreso") ingresos += parseFloat(t.monto);
+                else if (t.tipo === "gasto") gastos += parseFloat(t.monto);
+            });
+
+            const balance = ingresos - gastos;
+            const resumenY = doc.lastAutoTable.finalY + 10;
+
+            doc.setFontSize(12);
+            doc.text(`Ingresos: $${ingresos.toFixed(2)}`, 14, resumenY);
+            doc.text(`Gastos: $${gastos.toFixed(2)}`, 14, resumenY + 7);
+            doc.text(`Balance Total: $${balance.toFixed(2)}`, 14, resumenY + 14);
+
+            doc.save("transacciones.pdf");
+            mostrarNotificacion("PDF exportado correctamente", "exito");
+        } catch (error) {
+            mostrarNotificacion("Error al exportar PDF", "error");
+            console.error("Error al generar PDF:", error);
+        }
+    }
+
+
+
+/*Fin de la función de expoertar datos a PDF*/
 
     /**
      * Cierra una notificación

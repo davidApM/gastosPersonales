@@ -23,7 +23,7 @@
             <ul class="menu-superior-ul">
                 <li><a href="#resumen-financiero"><i class="fas fa-chart-pie"></i> Resumen</a></li>
                 <li><a href="#agregar-gasto"><i class="fas fa-plus-circle"></i> Nuevo Registro</a></li>
-                <li><a href="#Ayuda"><i class="fas fa-info-circle"></i> Ayuda</a></li>
+                <li><a href="#ayuda"><i class="fas fa-info-circle"></i> Ayuda</a></li>
                 <li><a href="#sobre-mi"><i class="fas fa-user"></i> Sobre mi</a></li>
             </ul>
         </nav>
@@ -229,7 +229,7 @@
     </article>
 
     <!-- Sección de ayuda -->
-    <article id="sobre-mi" class="descripcion">
+    <article id="ayuda" class="descripcion">
         <h2><i class="fas fa-question-circle"></i> Ayuda</h2>
         <p>
             Registra todos tus ingresos y gastos para mantener un control financiero saludable.
@@ -245,7 +245,7 @@
         </div>
     </article>
 
-    <article class="descripcion">
+    <article id="sobre-mi" class="descripcion">
         <h2><i class="fa-regular fa-user"></i> Sobre mi</h2>
         <p>
             Hola, soy David. Soy desarrollador web con pasión por crear sitios y aplicaciones funcionales y atractivas. Tengo
@@ -264,7 +264,13 @@
         </div>
     </footer>
 
+
+<!--Librerias para pdf y excel-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="script.js"></script>
+    
 </body>
 
 </html>

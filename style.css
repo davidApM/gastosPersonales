@@ -333,13 +333,6 @@ body.modo-oscuro .gastos {
     color: var(--dm-color-gasto);
 }
 
-
-
-
-
-
-
-
 /* ------------------------- */
 /* BOTONES DE EXPORTACIÓN */
 /* ------------------------- */
@@ -1076,14 +1069,6 @@ fieldset {
     text-align: center;
 }
 
-
-/*.detalle-balance {
-    grid-column: span 2;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-} */
-
 .ingresos-card {
     border-left: 4px solid var(--color-ingreso);
 }
@@ -1421,12 +1406,6 @@ body.modo-oscuro select:focus {
         align-items: center;
         padding: 15px;
     }
-
-    /*.detalle-balance {
-        grid-column: 1;
-        flex-direction: row;
-        gap: 15px;
-    } */
 
     .ingresos-card, .gastos-card {
         flex: 1;

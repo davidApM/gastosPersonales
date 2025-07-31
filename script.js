@@ -774,7 +774,7 @@ function actualizarBalance() {
     /*Fin de la función de exportar Excel*/
     
 /* Exporta las transacciones a PDF un resumen total*/
-    function exportarAPdf() {
+    async function exportarAPdf() {
         try {
             const doc = new jsPDF();
 
@@ -819,9 +819,6 @@ function actualizarBalance() {
             console.error("Error al generar PDF:", error);
         }
     }
-
-
-
 /*Fin de la función de expoertar datos a PDF*/
 
     /**

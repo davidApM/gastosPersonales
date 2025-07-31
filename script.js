@@ -776,48 +776,74 @@ function actualizarBalance() {
 /* Exporta las transacciones a PDF un resumen total*/
     async function exportarAPdf() {
         try {
-            const doc = new jsPDF();
+            // Mostrar notificación de inicio
+            mostrarNotificacion("Generando PDF...", "info", 2000);
 
-            doc.setFontSize(16);
-            doc.text("Reporte de Transacciones - DAPM", 14, 20);
+            // Crear el PDF (de forma asíncrona)
+            const generarPDF = () => {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        const doc = new jsPDF();
 
-            const datosTabla = transacciones.map(t => [
-                t.fecha,
-                t.descripcion,
-                `$${parseFloat(t.monto).toFixed(2)}`,
-                t.categoria,
-                t.tipo.charAt(0).toUpperCase() + t.tipo.slice(1)
-            ]);
+                        // Configuración del documento
+                        doc.setFontSize(16);
+                        doc.text("Reporte de Transacciones - DAPM", 14, 20);
 
-            doc.autoTable({
-                startY: 30,
-                head: [["Fecha", "Descripción", "Monto", "Categoría", "Tipo"]],
-                body: datosTabla,
-                styles: { fontSize: 10 },
-                theme: 'grid'
-            });
+                        // Generar tabla
+                        const datosTabla = transacciones.map(t => [
+                            t.fecha,
+                            t.descripcion,
+                            `$${t.monto.toFixed(2)}`,
+                            t.categoria,
+                            t.tipo.toUpperCase()
+                        ]);
 
-            let ingresos = 0;
-            let gastos = 0;
-            transacciones.forEach(t => {
-                if (t.tipo === "ingreso") ingresos += parseFloat(t.monto);
-                else if (t.tipo === "gasto") gastos += parseFloat(t.monto);
-            });
+                        doc.autoTable({
+                            head: [['Fecha', 'Descripción', 'Monto', 'Categoría', 'Tipo']],
+                            body: datosTabla,
+                            startY: 25,
+                            theme: 'grid'
+                        });
 
-            const balance = ingresos - gastos;
-            const resumenY = doc.lastAutoTable.finalY + 10;
+                        // Calcular resumen
+                        const { ingresos, gastos, balance } = calcularResumen();
+                        const yPos = doc.lastAutoTable.finalY + 10;
 
-            doc.setFontSize(12);
-            doc.text(`Ingresos: $${ingresos.toFixed(2)}`, 14, resumenY);
-            doc.text(`Gastos: $${gastos.toFixed(2)}`, 14, resumenY + 7);
-            doc.text(`Balance Total: $${balance.toFixed(2)}`, 14, resumenY + 14);
+                        doc.setFontSize(12);
+                        doc.text(`Ingresos: $${ingresos.toFixed(2)}`, 14, yPos);
+                        doc.text(`Gastos: $${gastos.toFixed(2)}`, 14, yPos + 7);
+                        doc.text(`Balance: $${balance.toFixed(2)}`, 14, yPos + 14);
 
-            doc.save("transacciones.pdf");
-            mostrarNotificacion("PDF exportado correctamente", "exito");
+                        resolve(doc);
+                    }, 100);
+                });
+            };
+
+            const doc = await generarPDF();
+
+            // Descargar con retraso controlado
+            setTimeout(() => {
+                doc.save("transacciones.pdf");
+
+                // Mostrar notificación después de un breve retraso
+                setTimeout(() => {
+                    mostrarNotificacion("PDF descargado correctamente", "exito");
+                }, 500); // Retraso adicional para móviles
+            }, 100);
+
         } catch (error) {
-            mostrarNotificacion("Error al exportar PDF", "error");
             console.error("Error al generar PDF:", error);
+            mostrarNotificacion("Error al exportar PDF", "error");
         }
+    }
+
+    function calcularResumen() {
+        let ingresos = 0, gastos = 0;
+        transacciones.forEach(t => {
+            if (t.tipo === "ingreso") ingresos += parseFloat(t.monto);
+            else if (t.tipo === "gasto") gastos += parseFloat(t.monto);
+        });
+        return { ingresos, gastos, balance: ingresos - gastos };
     }
 /*Fin de la función de expoertar datos a PDF*/
 
